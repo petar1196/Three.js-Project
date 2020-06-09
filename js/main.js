@@ -1,6 +1,28 @@
 let scene, camera, renderer;
 let aspect = window.innerWidth / window.innerHeight;
 let light, controls;
+let plane;
+
+ const createPlane = () => {
+
+    let planeGeometry = new THREE.PlaneGeometry(1000, 1000);
+    let planeMaterial = new THREE.ShadowMaterial();
+    planeMaterial.opacity = 0.2;
+    plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane.receiveShadow = true;
+    plane.position.y = -200;
+    
+    scene.add(plane);
+
+} 
+
+
+// const createCube = () => {
+//     let geometry = new THREE.BoxGeometry(10, 10, 10);
+//     let material = new THREE.MeshBasicMaterial( {color: 0xDC143C} );
+//     let cube = new THREE.Mesh(geometry, material);
+//     scene.add(cube);
+// }
 
 
 const init = () => {
@@ -10,13 +32,20 @@ const init = () => {
     camera = new THREE.PerspectiveCamera(
         75,
         aspect,
-        1,
+        10,
         1000
     )
-    camera.position.z = 20;
+    camera.position.set(80, 0, 100);
 
-    light = new THREE.SpotLight(0xffffff);
-    light.position.set(0, 0, 0);
+
+    light = new THREE.SpotLight(0x404040);
+    light.position.set(10, 10, 10);
+
+    let lightHelper = new THREE.SpotLightHelper(light);
+    scene.add(lightHelper);
+
+    createPlane();
+    // createCube();
 
 
 
