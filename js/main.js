@@ -5,12 +5,18 @@ let plane;
 
  const createPlane = () => {
 
-    let planeGeometry = new THREE.PlaneGeometry(1000, 1000);
-    let planeMaterial = new THREE.ShadowMaterial();
+    let planeGeometry = new THREE.BoxGeometry(1000, 1, 1000);
+    // let planeMaterial = new THREE.ShadowMaterial();
+    let planeMaterial = new THREE.MeshNormalMaterial({color: 'blue', side: THREE.DoubleSide});
     planeMaterial.opacity = 0.2;
     plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow = true;
-    plane.position.y = -200;
+    plane.position.y = -1;
+   
+
+   
+
+
     
     scene.add(plane);
 
@@ -33,16 +39,24 @@ const init = () => {
         75,
         aspect,
         10,
-        1000
+        10000
     )
-    camera.position.set(80, 0, 100);
+    camera.position.set(0, 60, 100);
 
 
-    light = new THREE.SpotLight(0x404040);
-    light.position.set(10, 10, 10);
+    light = new THREE.SpotLight(0x404040, 1);
+    light.position.set(80,110, 10);
+    light.distance = 100;
+    light.angle = 0.4;
+    light.castShadow = true;
+    
+
+
+    scene.add(light);
+    
 
     let lightHelper = new THREE.SpotLightHelper(light);
-    scene.add(lightHelper);
+    scene.add(lightHelper); 
 
     createPlane();
     // createCube();
@@ -52,6 +66,7 @@ const init = () => {
 
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     document.body.appendChild(renderer.domElement);
@@ -64,8 +79,11 @@ const init = () => {
 
 const mainLoop = () => {
     requestAnimationFrame(mainLoop);
+    
 
     controls.update();
+
+    
 
     renderer.render(scene, camera);
 }
