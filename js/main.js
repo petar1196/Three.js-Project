@@ -1,39 +1,45 @@
 let scene, camera, renderer;
 let aspect = window.innerWidth / window.innerHeight;
-let light, controls;
+let spotLight, controls;
 let plane;
+let gltfLoader, texture;
 
- const createPlane = () => {
 
-    let planeGeometry = new THREE.BoxGeometry(1000, 1, 1000);
-    // let planeMaterial = new THREE.ShadowMaterial();
-    let planeMaterial = new THREE.MeshNormalMaterial({color: 'blue', side: THREE.DoubleSide});
+const createPlane = () => {
+
+    let planeGeometry = new THREE.BoxGeometry(100, 1, 100);
+     let planeMaterial = new THREE.ShadowMaterial();
+    // let planeMaterial = new THREE.MeshNormalMaterial({ color: 'blue', side: THREE.DoubleSide });
     planeMaterial.opacity = 0.2;
     plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow = true;
     plane.position.y = -1;
-   
 
-   
-
-
-    
     scene.add(plane);
 
-} 
+    console.log(planeMaterial);
+}
+
+const createClay = () => {
+
+    gltfLoader = new THREE.GLTFLoader();
+    gltfLoader.load('models/Clay Pot/uepibauva.glb', gltf => {
+        const model = gltf.scene.children[0];
+        texture = new THREE.TextureLoader().load('models/Clay Pot/uepibauva_2K_Albedo.jpg');
+        model.material = new THREE.MeshBasicMaterial({map: texture});
+        model.scale.setScalar(3);
+        model.receiveShadow = true;
+        scene.add(model);
+    });
+}
 
 
-// const createCube = () => {
-//     let geometry = new THREE.BoxGeometry(10, 10, 10);
-//     let material = new THREE.MeshBasicMaterial( {color: 0xDC143C} );
-//     let cube = new THREE.Mesh(geometry, material);
-//     scene.add(cube);
-// }
 
 
 const init = () => {
+
     scene = new THREE.Scene();
-    scene.background = new THREE.Color();
+    scene.background = new THREE.Color(0xdddddd);
 
     camera = new THREE.PerspectiveCamera(
         75,
@@ -44,24 +50,24 @@ const init = () => {
     camera.position.set(0, 60, 100);
 
 
-    light = new THREE.SpotLight(0x404040, 1);
-    light.position.set(80,110, 10);
-    light.distance = 100;
-    light.angle = 0.4;
-    light.castShadow = true;
-    
+    spotLight = new THREE.SpotLight(0x404040, 1);
+    spotLight.position.set(80, 110, 10);
+    spotLight.distance = 100;
+    spotLight.angle = 0.4;
+    spotLight.castShadow = true;
+
+    scene.add(spotLight);
 
 
-    scene.add(light);
-    
-
-    let lightHelper = new THREE.SpotLightHelper(light);
-    scene.add(lightHelper); 
+    let lightHelper = new THREE.SpotLightHelper(spotLight);
+    scene.add(lightHelper);
 
     createPlane();
-    // createCube();
+    createClay();
 
 
+
+    
 
 
 
@@ -77,19 +83,19 @@ const init = () => {
     controls.update();
 }
 
-const mainLoop = () => {
-    requestAnimationFrame(mainLoop);
-    
+const animate = () => {
+    requestAnimationFrame(animate);
+
 
     controls.update();
 
-    
+
 
     renderer.render(scene, camera);
 }
 
 init();
-mainLoop();
+animate();
 
 
 const onWindowResize = () => {
