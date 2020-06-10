@@ -17,7 +17,7 @@ const createPlane = () => {
 
     scene.add(plane);
 
-    console.log(planeMaterial);
+    // console.log(planeMaterial);
 }
 
 const createClay = () => {
@@ -33,6 +33,21 @@ const createClay = () => {
     });
 }
 
+const createCone = () => {
+    gltfLoader = new THREE.GLTFLoader();
+    gltfLoader.load('models/Traffic Cone/ue4jfevga.glb', gltf => {
+        const model = gltf.scene.children[0];
+        texture = new THREE.TextureLoader().load('models/Traffic Cone/ue4jfevga_2K_Albedo.jpg');
+        model.material = new THREE.MeshBasicMaterial({map: texture});
+        model.scale.setScalar(1);
+        scene.add(model);
+        model.receiveShadow = true;
+        console.log(model);
+    })
+}
+
+
+
 
 
 
@@ -47,7 +62,7 @@ const init = () => {
         10,
         10000
     )
-    camera.position.set(0, 60, 100);
+    camera.position.set(0, 52, 90);
 
 
     spotLight = new THREE.SpotLight(0x404040, 1);
@@ -63,7 +78,8 @@ const init = () => {
     scene.add(lightHelper);
 
     createPlane();
-    createClay();
+    //  createClay();
+    createCone();
 
 
 
@@ -80,6 +96,8 @@ const init = () => {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enableRotate = true;
+    controls.minDistance = 50;
+    controls.maxDistance = 120;
     controls.update();
 }
 
