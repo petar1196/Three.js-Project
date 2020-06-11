@@ -3,6 +3,7 @@ let aspect = window.innerWidth / window.innerHeight;
 let spotLight, controls;
 let plane;
 let texture;
+let skyboxGeo, skyboxMaterials, skybox, skyboxGeo2, skyboxMaterials2, skybox2;;
 const gltfLoader = new THREE.GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
 
@@ -25,28 +26,73 @@ const createPlane = () => {
 }
 
 
-const createSkyBox = () => {
+const createSkyBox1 = () => {
 
-    let skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
+    skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
 
-    let skyboxMaterials = [
+    skyboxMaterials = [
         //Right
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/3.jpg'), side: THREE.BackSide }),
-        //left ok
+        //Left 
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/1.jpg'), side: THREE.BackSide }),
-        //up
+        //Up
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/up.jpg'), side: THREE.BackSide }),
-        //down
+        //Down
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/down.jpg'), side: THREE.BackSide }),
-        //front ok
+        //Front 
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/4.jpg'), side: THREE.BackSide }),
-        //back
+        //Back
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/2.jpg'), side: THREE.BackSide }),
     ];
 
-    let skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
+    skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
     scene.add(skybox);
 
+}
+
+
+const createSkyBox2 = () => {
+
+    skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
+
+    skyboxMaterials = [
+
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/negx.jpg'), side: THREE.BackSide }),
+
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/posx.jpg'), side: THREE.BackSide }),
+
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/posy.jpg'), side: THREE.BackSide }),
+
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/negy.jpg'), side: THREE.BackSide }),
+
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/negz.jpg'), side: THREE.BackSide }),
+
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/posz.jpg'), side: THREE.BackSide }),
+    ]
+
+    skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
+    scene.add(skybox);
+
+
+
+
+}
+
+
+const createCone = () => {
+    textureLoader.load('models/Traffic Cone/ue4jfevga_2K_Albedo.jpg', texture => {
+        gltfLoader.load('models/Traffic Cone/ue4jfevga.glb', gltf => {
+            const model = gltf.scene.children[0];
+            model.material = new THREE.MeshPhysicalMaterial({
+                map: texture
+            });
+            model.scale.setScalar(1);
+            model.castShadow = true;
+            model.receiveShadow = true;
+            model.position.y -= 9;
+            scene.add(model);
+        });
+    });
 }
 
 const createClay = () => {
@@ -54,31 +100,16 @@ const createClay = () => {
         const model = gltf.scene.children[0];
         texture = new THREE.TextureLoader().load('models/Clay Pot/uepibauva_2K_Albedo.jpg');
         model.material = new THREE.MeshStandardMaterial({ map: texture });
-        model.scale.setScalar(5);
+        model.scale.setScalar(3);
         model.castShadow = true;
         model.receiveShadow = true;
         scene.add(model);
 
+        model.position.y -= 8;
+
         console.log(model.material);
     });
 }
-
-const createCone = () => {
-    textureLoader.load('models/Traffic Cone/ue4jfevga_2K_Albedo.jpg', texture => {
-        gltfLoader.load('models/Traffic Cone/ue4jfevga.glb', gltf => {
-            const model = gltf.scene.children[0];
-            model.material = new THREE.MeshPhysicalMaterial({ 
-                map: texture
-            });
-            model.scale.setScalar(1);
-            model.castShadow = true;
-            model.receiveShadow = true;
-            model.position.y -=9;
-            scene.add(model);
-        });
-    });
-}
-
 
 
 
@@ -96,36 +127,36 @@ const init = () => {
     camera.position.set(0, 40, 110);
 
 
-    spotLight = new THREE.SpotLight(0xffffff, 3);
-    spotLight.position.set(0, 60,60);
+    spotLight = new THREE.SpotLight(0xffffff, 5, 1000);
+    spotLight.position.set(30, 60, 30);
     spotLight.distance = 110;
-    spotLight.angle = 0.6;
+    spotLight.angle = 0.8;
     spotLight.castShadow = true;
-
-
     spotLight.shadow.mapSize.width = 1024;
     spotLight.shadow.mapSize.height = 1024;
-
-    spotLight.shadow.camera.near = 30;
-    spotLight.shadow.camera.far = 50;
+    spotLight.shadow.camera.near = 60;
+    spotLight.shadow.camera.far = 150;
     spotLight.shadow.camera.fov = 30;
 
     scene.add(spotLight);
 
     // TEMP
-    let ambientLight = new THREE.AmbientLight(0xffffff, .5);
+   /*  let ambientLight = new THREE.AmbientLight(0xffffff, .5);
     scene.add(ambientLight)
+ */
 
-
-    let lightHelper = new THREE.SpotLightHelper(spotLight);
-    scene.add(lightHelper);
+     
+    // let lightHelper = new THREE.SpotLightHelper(spotLight);
+    // scene.add(lightHelper); 
 
     createPlane();
-   
-    // createClay();
-    createCone();
+    createSkyBox1();
+    // createSkyBox2();
 
-    createSkyBox();
+     createCone();
+    //createClay();
+
+
 
 
 
@@ -141,8 +172,8 @@ const init = () => {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enableRotate = true;
-    // controls.minDistance = 50;
-    // controls.maxDistance = 120;
+    controls.minDistance = 80;
+    controls.maxDistance = 170;
     controls.update();
 }
 
