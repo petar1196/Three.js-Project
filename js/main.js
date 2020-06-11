@@ -57,17 +57,17 @@ const createSkyBox2 = () => {
 
     skyboxMaterials = [
 
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/negx.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2//negx.jpg'), side: THREE.BackSide }),
 
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/posx.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/posx.jpg'), side: THREE.BackSide }),
 
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/posy.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/posy.jpg'), side: THREE.BackSide }),
 
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/negy.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/negy.jpg'), side: THREE.BackSide }),
 
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/negz.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/negz.jpg'), side: THREE.BackSide }),
 
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/MarriottMadisonWest/posz.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/posz.jpg'), side: THREE.BackSide }),
     ]
 
     skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
@@ -150,11 +150,11 @@ const init = () => {
     // scene.add(lightHelper); 
 
     createPlane();
-    createSkyBox1();
-    // createSkyBox2();
+    // createSkyBox1();
+    createSkyBox2();
 
-     createCone();
-    //createClay();
+    //  createCone();
+    createClay();
 
 
 
