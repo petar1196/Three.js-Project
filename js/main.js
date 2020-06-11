@@ -10,9 +10,9 @@ const textureLoader = new THREE.TextureLoader();
 
 const createPlane = () => {
 
-    let planeGeometry = new THREE.BoxGeometry(100, 1, 100);
+    let planeGeometry = new THREE.BoxBufferGeometry(100, 1, 100);
     // let planeMaterial = new THREE.ShadowMaterial();
-    let planeMaterial = new THREE.MeshPhysicalMaterial({ color: 'blue', side: THREE.DoubleSide });
+    let planeMaterial = new THREE.ShadowMaterial({ side: THREE.DoubleSide });
     // planeMaterial.opacity = 0.2;
     plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow = true;
@@ -27,35 +27,26 @@ const createPlane = () => {
 
 const createSkyBox = () => {
 
-    let skyboxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
+    let skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
 
     let skyboxMaterials = [
-
         //Right
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/3.jpg'), side: THREE.BackSide }),
-
         //left ok
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/1.jpg'), side: THREE.BackSide }),
-
         //up
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/up.jpg'), side: THREE.BackSide }),
-
         //down
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/down.jpg'), side: THREE.BackSide }),
-
         //front ok
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/4.jpg'), side: THREE.BackSide }),
-
         //back
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/2.jpg'), side: THREE.BackSide }),
-
     ];
 
     let skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
     scene.add(skybox);
 
-    skybox.position.y = 120;
-    skybox.position.x = 50;
 }
 
 const createClay = () => {
@@ -82,7 +73,7 @@ const createCone = () => {
             model.scale.setScalar(1);
             model.castShadow = true;
             model.receiveShadow = true;
-
+            model.position.y -=9;
             scene.add(model);
         });
     });
@@ -102,21 +93,21 @@ const init = () => {
         10,
         10000
     )
-    camera.position.set(0, 52, 90);
+    camera.position.set(0, 40, 110);
 
 
-    spotLight = new THREE.SpotLight(0xffffff, 2);
-    spotLight.position.set(0, 60, 10);
-    spotLight.distance = 100;
-    spotLight.angle = 0.4;
+    spotLight = new THREE.SpotLight(0xffffff, 3);
+    spotLight.position.set(0, 60,60);
+    spotLight.distance = 110;
+    spotLight.angle = 0.6;
     spotLight.castShadow = true;
 
 
     spotLight.shadow.mapSize.width = 1024;
     spotLight.shadow.mapSize.height = 1024;
 
-    spotLight.shadow.camera.near = 500;
-    spotLight.shadow.camera.far = 4000;
+    spotLight.shadow.camera.near = 30;
+    spotLight.shadow.camera.far = 50;
     spotLight.shadow.camera.fov = 30;
 
     scene.add(spotLight);
