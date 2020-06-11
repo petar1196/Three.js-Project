@@ -3,18 +3,19 @@ let aspect = window.innerWidth / window.innerHeight;
 let spotLight, controls;
 let plane;
 let texture;
-let skyboxGeo, skyboxMaterials, skybox, skyboxGeo2, skyboxMaterials2, skybox2;;
+let skyboxGeo, skyboxMaterials1, skyboxMaterials2, skybox, skyboxGeo2, skybox2;
 const gltfLoader = new THREE.GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
+
 
 
 
 const createPlane = () => {
 
     let planeGeometry = new THREE.BoxBufferGeometry(100, 1, 100);
-    // let planeMaterial = new THREE.ShadowMaterial();
+   
     let planeMaterial = new THREE.ShadowMaterial({ side: THREE.DoubleSide });
-    // planeMaterial.opacity = 0.2;
+     planeMaterial.opacity = 0.7;
     plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow = true;
     plane.castShadow = false;
@@ -26,11 +27,11 @@ const createPlane = () => {
 }
 
 
-const createSkyBox1 = () => {
+const createSkyBox = () => {
 
     skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
 
-    skyboxMaterials = [
+    skyboxMaterials1 = [
         //Right
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/3.jpg'), side: THREE.BackSide }),
         //Left 
@@ -45,19 +46,9 @@ const createSkyBox1 = () => {
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box1/2.jpg'), side: THREE.BackSide }),
     ];
 
-    skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
-    scene.add(skybox);
+    skyboxMaterials2 = [
 
-}
-
-
-const createSkyBox2 = () => {
-
-    skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
-
-    skyboxMaterials = [
-
-        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2//negx.jpg'), side: THREE.BackSide }),
+        new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/negx.jpg'), side: THREE.BackSide }),
 
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/posx.jpg'), side: THREE.BackSide }),
 
@@ -68,7 +59,19 @@ const createSkyBox2 = () => {
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/negz.jpg'), side: THREE.BackSide }),
 
         new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('skyBox/box2/posz.jpg'), side: THREE.BackSide }),
-    ]
+    ];
+
+    skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials1);
+    scene.add(skybox);
+
+}
+
+/* 
+const createSkyBox2 = () => {
+
+    skyboxGeo = new THREE.BoxBufferGeometry(1000, 1000, 1000);
+
+   
 
     skybox = new THREE.Mesh(skyboxGeo, skyboxMaterials);
     scene.add(skybox);
@@ -76,7 +79,7 @@ const createSkyBox2 = () => {
 
 
 
-}
+} */
 
 
 const createCone = () => {
@@ -103,6 +106,7 @@ const createClay = () => {
         model.scale.setScalar(3);
         model.castShadow = true;
         model.receiveShadow = true;
+        model.visible = false;
         scene.add(model);
 
         model.position.y -= 8;
@@ -150,11 +154,11 @@ const init = () => {
     // scene.add(lightHelper); 
 
     createPlane();
-     createSkyBox1();
+     createSkyBox();
    //  createSkyBox2();
 
     createCone();
-    //  createClay();
+      createClay();
 
 
 
@@ -174,6 +178,8 @@ const init = () => {
     controls.enableRotate = true;
     controls.minDistance = 80;
     controls.maxDistance = 170;
+    controls.maxPolarAngle = 1.5;
+    
     controls.update();
 }
 
@@ -197,3 +203,14 @@ const onWindowResize = () => {
 }
 
 window.addEventListener('resize', onWindowResize, false);
+
+let skyBox2 = document.getElementById('skybox2');
+skyBox2.addEventListener('click', () => {
+    skybox.material = skyboxMaterials2;
+}
+);
+
+let skyBox1 = document.getElementById('skybox1');
+skyBox1.addEventListener('click', () => {
+    skybox.material = skyboxMaterials1;
+})
