@@ -150,11 +150,11 @@ const init = () => {
     // scene.add(lightHelper); 
 
     createPlane();
-    // createSkyBox1();
-    createSkyBox2();
+     createSkyBox1();
+   //  createSkyBox2();
 
-    //  createCone();
-    createClay();
+    createCone();
+    //  createClay();
 
 
 

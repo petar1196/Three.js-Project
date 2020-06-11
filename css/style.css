@@ -1,8 +1,138 @@
 body {
     margin: 0;
     overflow: hidden;
+    font-family: 'Roboto';
 }
 
 canvas {
     display: block;
+}
+
+div.modify {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px 4px;
+    padding: 13px;
+    background-color: rgba(36, 36, 35, 0.5);
+    display: grid;
+    grid-template-columns: 8.6em 8.6em;
+    grid-template-rows: repeat(6, 1.8em);
+    grid-gap: 0.5em;
+    text-align: center;
+    align-items: center;
+    grid-template-areas: 'skybox1 skybox2'
+                        'loadcone loadpot'
+                        'cone pot'
+                        'texture1cone texture1pot'
+                        'texture2cone texture2pot'
+                        'texture3cone texture3pot';
+
+}
+
+button.button-skybox1 {
+    grid-area: skybox1; 
+}
+
+
+button.button-skybox2 {
+    grid-area: skybox2; 
+}
+
+button.button--loadcone {
+    grid-area: loadcone;
+}
+
+
+button.button--loadpot {
+    grid-area: loadpot;
+}
+
+p.element--cone {
+    grid-area: cone;
+}
+
+
+p.element--pot {
+    grid-area: pot;
+}
+
+button.button--texture1cone {
+    grid-area: texture1cone;
+}
+
+
+button.button--texture2cone {
+    grid-area: texture2cone;
+}
+
+
+button.button--texture3cone {
+    grid-area: texture3cone;
+}
+ 
+
+
+button.button--texture1pot {
+    grid-area: texture1pot;
+}
+
+
+button.button--texture2pot {
+    grid-area: texture2pot;
+}
+
+
+button.button--texture3pot {
+    grid-area: texture3pot;
+}
+
+
+
+@media(max-width: 800px) {
+    div.modify{
+        margin: 10px 0;
+
+        grid-template-columns: 8.6em;
+        grid-template-rows: repeat(12, 1.8em);
+        grid-template-areas: "skybox1"
+                             "skybox2"
+                             "loadcone"
+                             "loadpot"
+                             "cone"
+                             "texture1cone"
+                             "texture2cone"
+                             "texture3cone"
+                             "pot"
+                             "texture1pot"
+                             "texture2pot"
+                             "texture3pot";
+    }
+   
+}
+
+
+button {
+     cursor: pointer;
+   padding: 0.2em 1.7em;
+   border: 0.16em solid rgba(255, 255, 255, 0);
+   border-radius: 2em;
+   text-decoration: none;
+   background-color: #E4ECF1;
+   font-weight: 500;
+
+}
+
+
+
+button.skybox1 {
+    margin-right: 0.5em;
+}
+
+p.element {
+    font-size: 1.1em;
+    margin-bottom: 0.2em;
+    font-weight: 600;
+   
+    color: RGB(208, 212, 182);
 }
