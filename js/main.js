@@ -7,6 +7,9 @@ let skyboxGeo, skyboxMaterials1, skyboxMaterials2, skybox, skyboxGeo2, skybox2;
 const gltfLoader = new THREE.GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
 
+let coneModel;
+let clayModel;
+
 
 
 
@@ -85,33 +88,38 @@ const createSkyBox2 = () => {
 const createCone = () => {
     textureLoader.load('models/Traffic Cone/ue4jfevga_2K_Albedo.jpg', texture => {
         gltfLoader.load('models/Traffic Cone/ue4jfevga.glb', gltf => {
-            const model = gltf.scene.children[0];
-            model.material = new THREE.MeshPhysicalMaterial({
+            coneModel = gltf.scene.children[0];
+            coneModel.material = new THREE.MeshPhysicalMaterial({
                 map: texture
             });
-            model.scale.setScalar(1);
-            model.castShadow = true;
-            model.receiveShadow = true;
-            model.position.y -= 9;
-            scene.add(model);
+            coneModel.scale.setScalar(1);
+            coneModel.castShadow = true;
+            coneModel.receiveShadow = true;
+           coneModel.position.y -= 9;
+           coneModel.visible = true;
+            scene.add(coneModel);
         });
     });
+
+
 }
 
 const createClay = () => {
     gltfLoader.load('models/Clay Pot/uepibauva.glb', gltf => {
-        const model = gltf.scene.children[0];
+        clayModel = gltf.scene.children[0];
         texture = new THREE.TextureLoader().load('models/Clay Pot/uepibauva_2K_Albedo.jpg');
-        model.material = new THREE.MeshStandardMaterial({ map: texture });
-        model.scale.setScalar(3);
-        model.castShadow = true;
-        model.receiveShadow = true;
-        model.visible = false;
-        scene.add(model);
+        clayModel.material = new THREE.MeshStandardMaterial({ map: texture });
+        clayModel.scale.setScalar(3);
+        clayModel.castShadow = true;
+        clayModel.receiveShadow = true;
+        clayModel.visible = false;
+        scene.add(clayModel);
 
-        model.position.y -= 8;
+        clayModel.position.y -= 8;
 
-        console.log(model.material);
+    
+
+        
     });
 }
 
@@ -204,6 +212,8 @@ const onWindowResize = () => {
 
 window.addEventListener('resize', onWindowResize, false);
 
+
+
 let skyBox2 = document.getElementById('skybox2');
 skyBox2.addEventListener('click', () => {
     skybox.material = skyboxMaterials2;
@@ -214,3 +224,19 @@ let skyBox1 = document.getElementById('skybox1');
 skyBox1.addEventListener('click', () => {
     skybox.material = skyboxMaterials1;
 })
+
+    
+let loadCone = document.getElementById('load-cone');
+loadCone.addEventListener('click', () => {
+    coneModel.visible = true;
+    clayModel.visible = false;
+})
+
+  
+let loadPot = document.getElementById('load-pot');
+loadPot.addEventListener('click', () => {
+    coneModel.visible = false;
+    clayModel.visible = true;
+})
+
+
